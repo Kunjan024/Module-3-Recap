@@ -1,0 +1,24 @@
+steps:
+# Step 1: Build Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/module-3-recap/module-3-recap', '.']
+
+# Step 2: Push image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/module-3-recap/module-3-recap']
+
+# Step 3: Set up kubectl to connect to your GKE cluster
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+    - 'container'
+    - 'clusters'
+    - 'get-credentials'
+    - 'module-3-cluster'
+    - '--zone'
+    - 'us-central1'
+    - '--project'
+    - 'module-3-recap'
+
+# Step 4: Deploy to GKE using deployment.yaml
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'deployment.yaml']
