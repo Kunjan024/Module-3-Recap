@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: module-3-deployment
+spec:
+  replicas: 2                       # run 2 pods by default
+  selector:
+    matchLabels:
+      app: module-3-app
+  template:
+    metadata:
+      labels:
+        app: module-3-app
+    spec:
+      containers:
+      - name: module-3-container
+        image: gcr.io/module-3-recap/module-3-recap:latest
+        ports:
+        - containerPort: 8080       # your app listens on 8080
+        imagePullPolicy: IfNotPresent
+        # no env vars by default
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: module-3-service
+spec:
+  type: LoadBalancer             # external IP for access
+  selector:
+    app: module-3-app
+  ports:
+    - port: 80                   # port exposed outside
+      targetPort: 8080           # maps to containerPort
