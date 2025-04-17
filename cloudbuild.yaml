@@ -10,10 +10,17 @@ steps:
     - 'get-credentials'
     - 'module-3-cluster'
     - '--zone'
-    - 'us-central1'
+    - 'us-central1-a'  # Specify a specific zone for the cluster
     - '--project'
     - 'module-3-recap'
 
 # Step 2: Deploy to GKE using deployment.yaml
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'deployment.yaml']
+  args:
+    - 'apply'
+    - '-f'
+    - 'deployment.yaml'
+    - '--project'
+    - 'module-3-recap'  # Specify the project to ensure correct association
+    - '--zone'
+    - 'us-central1-a'  # Specify the zone
