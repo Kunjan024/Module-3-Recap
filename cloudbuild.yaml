@@ -1,11 +1,19 @@
-# Step 1: Set up kubectl to connect to your GKE cluster
-- name: 'gcr.io/cloud-builders/gcloud'
-  args:
-    - 'container'
-    - 'clusters'
-    - 'get-credentials'
-    - 'module-3-cluster'
-    - '--region'
-    - 'us-central1'  # Use region instead of zone
-    - '--project'
-    - 'module-3-recap'
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  # Step 1: Set up kubectl to connect to your GKE cluster
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'container'
+      - 'clusters'
+      - 'get-credentials'
+      - 'module-3-cluster'
+      - '--region'
+      - 'us-central1'
+      - '--project'
+      - 'module-3-recap'
+
+  # Step 2: Deploy to GKE using deployment.yaml
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'deployment.yaml']
