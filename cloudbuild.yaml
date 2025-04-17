@@ -16,4 +16,8 @@ steps:
 
   # Step 2: Deploy to GKE using deployment.yaml
   - name: 'gcr.io/cloud-builders/kubectl'
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=us-central1' # Ensure region is set
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a' # Specify a zone within the region
+      - 'CLOUDSDK_CONTAINER_CLUSTER=module-3-cluster' # Set cluster name
     args: ['apply', '-f', 'deployment.yaml']
